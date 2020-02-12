@@ -1,4 +1,4 @@
-# nuxt-demo
+# nuxt-frontend
 
 > My superior Nuxt.js project
 
