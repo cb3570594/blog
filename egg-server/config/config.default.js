@@ -60,7 +60,8 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
   };
-
+  config.proxy = true;
+  config.maxProxyCount = 1;
   return {
     ...config,
     ...userConfig,

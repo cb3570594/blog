@@ -5,10 +5,10 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async index() {
     const { ctx } = this;
-    console.log(ctx.request.path)
+    console.log(ctx.request.path, ctx.request.ip)
       ctx.body = {
         s: true,
-        d: ''
+        d: ctx.ip
       }
   }
 }
