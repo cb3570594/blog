@@ -80,7 +80,6 @@ class PostController extends Controller {
         fs.moveSync(sourceImage, targetImage);
       }
     }
-    const postTag = tag.map(item => ({ post_id, tag_id: item }));
     let transaction = null;
     try {
       transaction = await ctx.model.transaction();
@@ -90,6 +89,7 @@ class PostController extends Controller {
           ctx.helper.fail({ m: '没有权限' });
           return;
         }
+        const postTag = tag.map(item => ({ post_id, tag_id: item }));
         await service.post.delPostTag(post_id, transaction);
         await Promise.all([service.post.update({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }), service.post.setPostTag(postTag, transaction)]);
         await transaction.commit();
@@ -98,6 +98,7 @@ class PostController extends Controller {
         // 发布
         post_id = uuidv4()
         console.log('发布', post_id)
+        const postTag = tag.map(item => ({ post_id, tag_id: item }));
         await Promise.all([service.post.edit({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }), service.post.setPostTag(postTag)]);
         await transaction.commit();
         ctx.helper.success({ m: '发布成功', d: post_id });
