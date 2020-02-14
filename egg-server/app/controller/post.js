@@ -91,7 +91,7 @@ class PostController extends Controller {
         }
         const postTag = tag.map(item => ({ post_id, tag_id: item }));
         await service.post.delPostTag(post_id, transaction);
-        await Promise.all([service.post.update({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }), service.post.setPostTag(postTag, transaction)]);
+        await Promise.all([service.post.update({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }, transaction), service.post.setPostTag(postTag, transaction)]);
         await transaction.commit();
         ctx.helper.success({ m: '修改成功', d: post_id });
       } else {
@@ -99,7 +99,7 @@ class PostController extends Controller {
         post_id = uuidv4()
         console.log('发布', post_id)
         const postTag = tag.map(item => ({ post_id, tag_id: item }));
-        await Promise.all([service.post.edit({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }), service.post.setPostTag(postTag)]);
+        await Promise.all([service.post.edit({ post_id, user_id: ctx.state.user_id, ...ctx.request.body, img }, transaction), service.post.setPostTag(postTag, transaction)]);
         await transaction.commit();
         ctx.helper.success({ m: '发布成功', d: post_id });
       }

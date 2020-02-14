@@ -37,13 +37,13 @@ class PostService extends Service {
     return res;
   }
 
-  async edit(data) {
-    const res = await this.ctx.model.Post.create(data);
+  async edit(data, transaction) {
+    const res = await this.ctx.model.Post.create(data, transaction);
     return res;
   }
-  async update(data) {
+  async update(data, transaction) {
     delete data.tag;
-    const res = await this.ctx.model.Post.update(data, { where: { post_id: data.post_id } });
+    const res = await this.ctx.model.Post.update(data, { where: { post_id: data.post_id }, transaction});
     return res;
   }
   // 分类
